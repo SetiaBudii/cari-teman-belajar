@@ -13,7 +13,7 @@ const ServerIdLayout = async ({
   params: { serverId: string };
 }) => {
   const profile = await currentProfile();
-
+  
   if (!profile) {
     return redirectToSignIn();
   }

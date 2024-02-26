@@ -14,7 +14,6 @@ const ServerIdPage = async ({
   params
 }: ServerIdPageProps) => {
   const profile = await currentProfile();
-
   if (!profile) {
     return redirectToSignIn();
   }
