@@ -12,7 +12,7 @@ import { NavigationItem } from "./navigation-item";
 
 export const NavigationSidebar = async () => {
   const profile = await currentProfile();
-
+  
   if (!profile) {
     return redirect("/");
   }
@@ -21,7 +21,7 @@ export const NavigationSidebar = async () => {
     where: {
       members: {
         some: {
-          profileId: profile.id
+          profileId: profile?.id
         }
       }
     }
@@ -48,14 +48,9 @@ export const NavigationSidebar = async () => {
       </ScrollArea>
       <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
         <ModeToggle />
-        <UserButton
-          afterSignOutUrl="/"
-          appearance={{
-            elements: {
-              avatarBox: "h-[48px] w-[48px]"
-            }
-          }}
-        />
+        <div className="flex items-center gap-x-2">
+          <img src={profile.imageUrl} alt={profile.name} className="h-8 w-8 rounded-full" />
+        </div>
       </div>
     </div>
   )

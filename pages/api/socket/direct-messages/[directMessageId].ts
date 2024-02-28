@@ -15,6 +15,7 @@ export default async function handler(
 
   try {
     const profile = await currentProfilePages(req);
+    console.log(profile);
     const { directMessageId, conversationId } = req.query;
     const { content } = req.body;
 
