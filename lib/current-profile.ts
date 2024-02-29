@@ -1,11 +1,11 @@
 import { db } from "@/lib/db";
-
+import { Profile } from "@prisma/client";
 export const currentProfile = async () => {
-  const profileid = "5665c9b3-e74c-46f8-97cd-dc6a7a8009fc";
+  const email = 'teresnahati11@gmail.com';
 
-  const profile = await db.profile.findUnique({
+  const profile = await db.profile.findFirst({
     where: {
-      id: profileid
+      email:email
     }
   });
   return profile;
