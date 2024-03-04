@@ -1,7 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google'
-import { ClerkProvider } from '@clerk/nextjs'
 
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/providers/theme-provider'
@@ -22,27 +21,25 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={cn(
-          font.className,
-          "bg-white dark:bg-[#313338]"
-        )}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            storageKey="discord-theme"
-          >
-            <SocketProvider>
-              <ModalProvider />
-              <QueryProvider>
-                {children}
-              </QueryProvider>
-            </SocketProvider>
-          </ThemeProvider>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn(
+        font.className,
+        "bg-white dark:bg-[#313338]"
+      )}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          storageKey="discord-theme"
+        >
+          <SocketProvider>
+            <ModalProvider />
+            <QueryProvider>
+              {children}
+            </QueryProvider>
+          </SocketProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   )
 }
