@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 
 export const initialProfile = async () => {
-  const profileid = "5665c9b3-e74c-46f8-97cd-dc6a7a8009fc"
+  const profileid = "ccb99845-cd58-4047-b947-0a5da3432ea7"
   const profile = await db.profile.findUnique({
     where: {
       id: profileid

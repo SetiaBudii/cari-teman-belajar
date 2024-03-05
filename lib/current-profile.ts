@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { Profile } from "@prisma/client";
 export const currentProfile = async () => {
-  const email = 'teresnahati11@gmail.com';
+  const email = 'asasasas';
 
   const profile = await db.profile.findFirst({
     where: {

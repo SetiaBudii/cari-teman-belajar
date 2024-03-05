@@ -9,6 +9,7 @@ export async function POST(req: Request) {
     const profile = await db.profile.create({
         data: {
             userId: newprofile.userId,
+            userName: newprofile.userName,
             name: newprofile.name,
             imageUrl: newprofile.imageUrl,
             email: newprofile.email
