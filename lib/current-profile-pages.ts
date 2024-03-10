@@ -5,7 +5,7 @@ import { currentProfile } from "./current-profile";
 import { db } from "@/lib/db";
 
 export const currentProfilePages = async (req: NextApiRequest) => {
-  const { userId } = getAuth(req);
+
   const profileid = await currentProfile();
   const profile = await db.profile.findUnique({
     where: {

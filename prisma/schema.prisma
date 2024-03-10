@@ -121,7 +121,6 @@ enum member_role {
 }
 
 enum channel_type {
-  TEXT
   AUDIO
   VIDEO
 }
