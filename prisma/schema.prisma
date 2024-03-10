@@ -8,119 +8,168 @@ datasource db {
   relationMode = "prisma"
 }
 
-model channel {
-  id        String       @id
-  name      String
-  type      channel_type @default(TEXT)
-  profileId String
-  serverId  String
-  createdAt DateTime     @default(now())
-  updatedAt DateTime
-
-  @@index([profileId], map: "Channel_profileId_idx")
-  @@index([serverId], map: "Channel_serverId_idx")
-}
-
-model conversation {
-  id          String @id
-  memberOneId String
-  memberTwoId String
-
-  @@unique([memberOneId, memberTwoId], map: "Conversation_memberOneId_memberTwoId_key")
-  @@index([memberTwoId], map: "Conversation_memberTwoId_idx")
-}
-
-model directmessage {
-  id             String   @id
-  content        String   @db.Text
-  fileUrl        String?  @db.Text
-  memberId       String
-  conversationId String
-  deleted        Boolean  @default(false)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime
-
-  @@index([conversationId], map: "DirectMessage_conversationId_idx")
-  @@index([memberId], map: "DirectMessage_memberId_idx")
-}
-
-model follow {
-  id          String   @id
-  followerId  String
-  followingId String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime
-
-  @@index([followerId], map: "Follow_followerId_idx")
-  @@index([followingId], map: "Follow_followingId_idx")
-}
-
-model member {
-  id        String      @id
-  role      member_role @default(GUEST)
-  profileId String
-  serverId  String
-  createdAt DateTime    @default(now())
-  updatedAt DateTime
-
-  @@index([profileId], map: "Member_profileId_idx")
-  @@index([serverId], map: "Member_serverId_idx")
-}
-
-model message {
-  id        String   @id
-  content   String   @db.Text
-  fileUrl   String?  @db.Text
-  memberId  String
-  channelId String
-  deleted   Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-
-  @@index([channelId], map: "Message_channelId_idx")
-  @@index([memberId], map: "Message_memberId_idx")
-}
-
-model profile {
-  id        String   @id
-  userId    String   @unique(map: "Profile_userId_key")
-  userName  String   @unique(map: "Profile_userName_key")
-  name      String
-  imageUrl  String   @db.Text
-  email     String   @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime
-}
-
-model server {
-  id          String   @id
+model Server {
+  id          String   @id @default(uuid())
   name        String
   imageUrl    String   @db.Text
-  inviteCode  String   @unique(map: "Server_inviteCode_key")
+  inviteCode  String   @unique
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  members Member[]
+  channels Channel[]
+
   description String   @db.Text
   departement String
   location    String   @db.Text
-  profileId   String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime
   topic       String
 
-  @@index([profileId], map: "Server_profileId_idx")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
 }
 
-model servertopic {
-  id        String @id
-  nameTopic String
-  serverId  String
+model Profile {
+  id       String @id @default(uuid())
+  userId   String @unique
+  name     String
+  imageUrl String @db.Text
+  email    String @db.Text
+
+  servers  Server[]
+  members  Member[]
+  channels Channel[]
+
+  following Follow[] @relation("Following")
+  followers Follow[] @relation("Followers")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-enum member_role {
+model Follow {
+  id          String  @id @default(uuid())
+  follower    Profile @relation("Followers", fields: [followerId], references: [id])
+  followerId  String
+  following   Profile @relation("Following", fields: [followingId], references: [id])
+  followingId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([followerId])
+  @@index([followingId])
+}
+
+enum MemberRole {
   ADMIN
   MODERATOR
   GUEST
 }
 
-enum channel_type {
+model Member {
+  id   String     @id @default(uuid())
+  role MemberRole @default(GUEST)
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  serverId String
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  messages       Message[]
+  directMessages DirectMessage[]
+
+  conversationsInitiated Conversation[] @relation("MemberOne")
+  conversationsReceived  Conversation[] @relation("MemberTwo")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([serverId])
+}
+
+enum ChannelType {
+  TEXT
   AUDIO
   VIDEO
+}
+
+model Channel {
+  id   String      @id @default(uuid())
+  name String
+  type ChannelType @default(TEXT)
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  serverId String
+  server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileId])
+  @@index([serverId])
+}
+
+model Message {
+  id      String @id @default(uuid())
+  content String @db.Text
+
+  fileUrl String? @db.Text
+
+  memberId String
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  channelId String
+  channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+  deleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([channelId])
+  @@index([memberId])
+}
+
+model Conversation {
+  id String @id @default(uuid())
+
+  memberOneId String
+  memberOne   Member @relation("MemberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
+
+  memberTwoId String
+  memberTwo   Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
+
+  directMessages DirectMessage[]
+
+  @@unique([memberOneId, memberTwoId])
+  @@index([memberTwoId])
+}
+
+model DirectMessage {
+  id      String  @id @default(uuid())
+  content String  @db.Text
+  fileUrl String? @db.Text
+
+  memberId String
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  deleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([memberId])
+  @@index([conversationId])
 }

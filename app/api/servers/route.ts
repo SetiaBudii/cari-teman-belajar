@@ -22,6 +22,7 @@ export async function POST(req: Request) {
         departement: body["departement"],
         location: body["location"],
         inviteCode: uuidv4(),
+        topic: body["topic"],
         channels: {
           create: [
             { name: "general" , profileId: profile?.id}
