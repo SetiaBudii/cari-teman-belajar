@@ -7,10 +7,15 @@ import { db } from "@/lib/db";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const profile = await currentProfile();
+
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
 
     const server = await db.server.create({
       data: {
-        profileId: body["profileId"],
+        profileId: profile?.id,
         name: body["name"],
         imageUrl: body["imageUrl"],
         description: body["description"],
@@ -19,16 +24,17 @@ export async function POST(req: Request) {
         inviteCode: uuidv4(),
         channels: {
           create: [
-            { name: "general" , profileId: body["profileId"]}
+            { name: "general" , profileId: profile?.id}
           ]
         },
         members: {
           create: [
-            { profileId: body["profileId"], role: "ADMIN" }
+            { profileId: profile?.id, role: MemberRole.ADMIN }
           ]
-        }
+        },
       }
     });
+
     return NextResponse.json(server);
   } catch (error) {
     console.log("[SERVERS_POST]", error);
