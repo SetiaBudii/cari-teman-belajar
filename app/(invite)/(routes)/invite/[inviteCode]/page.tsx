@@ -41,7 +41,7 @@ const InviteCodePage = async ({
       members: {
         create: [
           {
-            profileId: profile?.id,
+            profileId: profile.id,
           }
         ]
       }
