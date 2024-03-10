@@ -1,61 +1,15 @@
 import { db } from "@/lib/db";
 
 export const initialProfile = async () => {
-  const profileid = "ccb99845-cd58-4047-b947-0a5da3432ea7"
+  //Using Cookie and use ProfileId, but for now we will use the hardcoded profileId
+  const profileid = "ccb99845-cd58-4047-b947-0a5da3432ea7";
   const profile = await db.profile.findUnique({
     where: {
-      userId: userId
+      id: profileid
     }
   });
 
-  console.log(profile);
   if (profile) {
     return profile;
   }
-
-  const newProfile = await db.profile.create({
-    data: {
-      userId: "aaa",
-      name: "aaa",
-      imageUrl: "aaa",
-      email: "aaa"
-    }
-  });
-
-  return newProfile;
 };
-
-
-// =====================================
-// import { currentUser, redirectToSignIn } from "@clerk/nextjs";
-
-// import { db } from "@/lib/db";
-
-// export const initialProfile = async () => {
-//   const user = await currentUser();
-
-//   if (!user) {
-//     return redirectToSignIn();
-//   }
-
-//   const profile = await db.profile.findUnique({
-//     where: {
-//       userId: user.id
-//     }
-//   });
-
-//   if (profile) {
-//     return profile;
-//   }
-
-//   const newProfile = await db.profile.create({
-//     data: {
-//       userId: user.id,
-//       name: `${user.firstName} ${user.lastName}`,
-//       imageUrl: user.imageUrl,
-//       email: user.emailAddresses[0].emailAddress
-//     }
-//   });
-
-//   return newProfile;
-// };

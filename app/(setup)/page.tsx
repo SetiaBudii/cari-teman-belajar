@@ -6,6 +6,10 @@ import { InitialModal } from "@/components/modals/initial-modal";
 
 const SetupPage = async () => {
   const profile = await initialProfile();
+
+  if (!profile) {
+    return redirect('http://localhost:3000/dashboard');
+  }
   const server = await db.server.findFirst({
     where: {
       members: {
