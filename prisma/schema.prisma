@@ -32,11 +32,14 @@ model Server {
 }
 
 model Profile {
-  id       String @id @default(uuid())
-  userId   String @unique
+  id       String      @id @default(uuid())
+  userId   String      @unique
   name     String
-  imageUrl String @db.Text
-  email    String @db.Text
+  imageUrl String      @db.Text
+  email    String      @db.Text
+  kampus   String     
+  jurusan  String    
+  role     ProfileRole @default(MAHASISWA)
 
   servers  Server[]
   members  Member[]
@@ -173,3 +176,10 @@ model DirectMessage {
   @@index([memberId])
   @@index([conversationId])
 }
+
+enum ProfileRole {
+  MAHASISWA
+  DOSEN
+  PRAKTISI
+}
+

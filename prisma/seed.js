@@ -15,6 +15,9 @@ async function seed() {
                 name: `User ${i}`,
                 imageUrl: `user${i}.jpg`,
                 email: `user${i}@example.com`,
+                kampus: `Kampus ${i}`,
+                jurusan: `Jurusan ${i}`,
+                role: 'MAHASISWA',
             },
         });
 
@@ -37,7 +40,6 @@ async function seed() {
             },
         });
     }
-
     console.log('Seeding completed');
 }
 
