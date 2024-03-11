@@ -7,12 +7,13 @@ export const currentProfile = async () => {
   if (!user) {
     return null;
   }
-
+  
   const profile = await db.profile.findFirst({
     where: {
       email: user.email
     }
   });
+
   return profile;
 }
 
