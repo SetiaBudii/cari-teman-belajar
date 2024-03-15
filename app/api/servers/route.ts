@@ -12,7 +12,21 @@ export async function POST(req: Request) {
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    console.log("autorized");
+
+
+    // Extract topics from the request body
+    const topics: string[] = [];
+    let i = 1;
+    while (body[`topic${i}`]) {
+      topics.push(body[`topic${i}`]);
+      i++;
+    }
+
+    const topicCreateData: Prisma.ServerTopicCreateInput[] = topics.map((topic: string) => ({
+      name: topic
+    }));
+
+
     const server = await db.server.create({
       data: {
         profileId: profile?.id,
@@ -22,7 +36,6 @@ export async function POST(req: Request) {
         departement: body["departement"],
         location: body["location"],
         inviteCode: uuidv4(),
-        topic: body["topic"],
         channels: {
           create: [
             { name: "general" , profileId: profile?.id}
@@ -33,6 +46,12 @@ export async function POST(req: Request) {
             { profileId: profile?.id, role: MemberRole.ADMIN }
           ]
         },
+        topics: {
+          create: topicCreateData
+        }
+      },
+      include: {
+        topics: true,      
       }
     });
 

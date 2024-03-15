@@ -19,24 +19,16 @@ model Server {
 
   members Member[]
   channels Channel[]
-  topics ServerTopic[] @relation("ServerTopics")
 
   description String   @db.Text
   departement String
   location    String   @db.Text
+  topic       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([profileId])
-}
-
-model ServerTopic{
-  id     String   @id @default(uuid())
-  name   String
-
-  serverId String
-  server Server @relation("ServerTopics", fields: [serverId], references: [id], onDelete: Cascade)
 }
 
 model Profile {

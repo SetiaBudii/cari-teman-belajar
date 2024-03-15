@@ -34,25 +34,44 @@ export async function PATCH(
 ) {
   try {
     const profile = await currentProfile();
-    const { name, imageUrl, description, departement, location, topic} = await req.json();
+    const { description, departement, location, topic1, topic2, topic3 } = await req.json();
 
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
+    let allTopic = [];
+    //Not using topic=none
+    for (const topic of [topic1, topic2, topic3]) {
+      if (topic !== "none") {
+        allTopic.push(topic);
+      }
+    }
+
+    // Find all server topics associated with the specified serverId
+    const allTopics = await db.serverTopic.findMany({
+      where: { serverId: params.serverId },
+    });
+
+    // Update each server topic
+    for (const topic of allTopics) {
+      await db.serverTopic.update({
+        where: { id: topic.id },
+        //use allTopic to update the name of the topics
+        data: { name: allTopic.shift() || "none" },
+      });
+    }
+
+    //update server and its topics
     const server = await db.server.update({
       where: {
         id: params.serverId,
-        profileId: profile.id,
       },
       data: {
-        name,
-        imageUrl,
         description,
         departement,
         location,
-        topic
-      }
+      },
     });
 
     return NextResponse.json(server);
