@@ -33,7 +33,22 @@ const formSchema = z.object({
   }),
   imageUrl: z.string().min(1, {
     message: "Server image is required."
-  })
+  }),
+  description: z.string().min(1, {
+    message: "Server description is required."
+  }),
+  departement: z.string().min(1, {
+    message: "Server departement is required."
+  }),
+  location: z.string().min(1, {
+    message: "Server location is required."
+  }),
+  topic1: z.string().min(1, {
+    message: "Server topik1 is required."
+  }),
+  topic2: z.string().min(1, {
+    message: "Server topik2 is required."
+  }),
 });
 
 export const InitialModal = () => {
@@ -50,6 +65,11 @@ export const InitialModal = () => {
     defaultValues: {
       name: "",
       imageUrl: "",
+      description:"Komunitas proyek 3",
+      departement:"JTK",
+      location:"Majalaya",
+      topic1:"Proyek3",
+      topic2:"Proyek2"
     }
   });
 
