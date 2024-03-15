@@ -33,6 +33,24 @@ const formSchema = z.object({
   }),
   imageUrl: z.string().min(1, {
     message: "Server image is required."
+  }),
+  description: z.string().min(1, {
+    message: "Server description is required."
+  }),
+  departement: z.string().min(1, {
+    message: "Server major is required."
+  }),
+  topic1: z.string().min(1, {
+    message: "Server topic 1 is required."
+  }),
+  topic2: z.string().min(1, {
+    message: "Server topic 2 is required."
+  }),
+  topic3: z.string().min(1, {
+    message: "Server topic 3 is required."
+  }),
+  location: z.string().min(1, {
+    message: "Server location is required."
   })
 });
 
@@ -43,17 +61,19 @@ export const EditServerModal = () => {
   const isModalOpen = isOpen && type === "editServer";
   const { server } = data;
 
+  //get topic from the server
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       imageUrl: "",
       description: "",
-      jurusan: "",
-      topik1: "",
-      topik2: "",
-      topik3: "",
-      lokasi:"",
+      departement: "",
+      topic1: "",
+      topic2: "",
+      topic3: "",
+      location:"",
     }
   });
 
@@ -62,11 +82,9 @@ export const EditServerModal = () => {
       form.setValue("name", server.name);
       form.setValue("imageUrl", server.imageUrl);
       form.setValue("description", server.description);
-      // form.setValue("jurusan", server.jurusan);
-      // form.setValue("topik1", server.topik1);
-      // form.setValue("topik2", server.topik2);
-      // form.setValue("topik3", server.topik3);
-      // form.setValue("lokasi", server.lokasi);
+      form.setValue("departement", server.departement);
+      form.setValue("location", server.location);
+      console.log(JSON.stringify(server));
     }
   }, [server, form]);
 
@@ -168,7 +186,7 @@ export const EditServerModal = () => {
               {/* Jurusan */}
               <FormField
                 control={form.control}
-                name="jurusan"
+                name="departement"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel
@@ -193,7 +211,7 @@ export const EditServerModal = () => {
                 {/* Topic 1 */}
                 <FormField
                   control={form.control}
-                  name="topik1"
+                  name="topic1"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel
@@ -217,7 +235,7 @@ export const EditServerModal = () => {
                 {/* Topic 2 */}
                 <FormField
                   control={form.control}
-                  name="topik2"
+                  name="topic2"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel
@@ -241,7 +259,7 @@ export const EditServerModal = () => {
                 {/* Topic 3 */}
                 <FormField
                   control={form.control}
-                  name="topik3"
+                  name="topic3"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel
@@ -267,7 +285,7 @@ export const EditServerModal = () => {
               {/* Lokasi */}
               <FormField
                 control={form.control}
-                name="lokasi"
+                name="location"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel

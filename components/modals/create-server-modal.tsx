@@ -32,6 +32,24 @@ const formSchema = z.object({
   }),
   imageUrl: z.string().min(1, {
     message: "Server image is required."
+  }),
+  description: z.string().min(1, {
+    message: "Server description is required."
+  }),
+  departement: z.string().min(1, {
+    message: "Server departement is required."
+  }),
+  topic1: z.string().min(1, {
+    message: "Server topic 1 is required."
+  }),
+  topic2: z.string().min(1, {
+    message: "Server topic 2 is required."
+  }),
+  topic3: z.string().min(1, {
+    message: "Server topic 3 is required."
+  }),
+  location: z.string().min(1, {
+    message: "Server location is required."
   })
 });
 
@@ -47,11 +65,11 @@ export const CreateServerModal = () => {
       name: "",
       imageUrl: "",
       description: "",
-      jurusan: "",
-      topik1: "",
-      topik2: "",
-      topik3: "",
-      lokasi:"",
+      departement : "JTK",
+      topic1: "",
+      topic2: "",
+      topic3: "",
+      location:"",
     }
   });
 
@@ -153,7 +171,7 @@ export const CreateServerModal = () => {
               {/* Jurusan */}
               <FormField
                 control={form.control}
-                name="jurusan"
+                name="departement"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel
@@ -178,7 +196,7 @@ export const CreateServerModal = () => {
                 {/* Topic 1 */}
                 <FormField
                   control={form.control}
-                  name="topik1"
+                  name="topic1"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel
@@ -202,7 +220,7 @@ export const CreateServerModal = () => {
                 {/* Topic 2 */}
                 <FormField
                   control={form.control}
-                  name="topik2"
+                  name="topic2"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel
@@ -226,7 +244,7 @@ export const CreateServerModal = () => {
                 {/* Topic 3 */}
                 <FormField
                   control={form.control}
-                  name="topik3"
+                  name="topic3"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel
@@ -252,7 +270,7 @@ export const CreateServerModal = () => {
               {/* Lokasi */}
               <FormField
                 control={form.control}
-                name="lokasi"
+                name="location"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel
