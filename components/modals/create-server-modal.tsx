@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -47,6 +46,12 @@ export const CreateServerModal = () => {
     defaultValues: {
       name: "",
       imageUrl: "",
+      description: "",
+      jurusan: "",
+      topik1: "",
+      topik2: "",
+      topik3: "",
+      lokasi:"",
     }
   });
 
@@ -72,17 +77,14 @@ export const CreateServerModal = () => {
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
-        <DialogHeader className="pt-8 px-6">
+        <DialogHeader className="pt-4 px-3">
           <DialogTitle className="text-2xl text-center font-bold">
-            Customize your server
+            Buat Komunitas Baru
           </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">
-            Give your server a personality with a name and an image. You can always change it later.
-          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="space-y-8 px-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-0">
+            <div className="space-y-1 px-6">
               <div className="flex items-center justify-center text-center">
                 <FormField
                   control={form.control}
@@ -109,13 +111,160 @@ export const CreateServerModal = () => {
                     <FormLabel
                       className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
                     >
-                      Server name
+                      Nama Komunitas
                     </FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
                         placeholder="Enter server name"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Deskripsi */}
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel
+                      className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                    >
+                      Deskripsi
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                        placeholder="Enter server description"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Jurusan */}
+              <FormField
+                control={form.control}
+                name="jurusan"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel
+                      className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                    >
+                      Jurusan
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                        placeholder="Enter server major"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex space-x-4">
+                {/* Topic 1 */}
+                <FormField
+                  control={form.control}
+                  name="topik1"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel
+                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                      >
+                        Topik 1
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                          placeholder="Enter topic 1"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Topic 2 */}
+                <FormField
+                  control={form.control}
+                  name="topik2"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel
+                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                      >
+                        Topik 2
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                          placeholder="Enter topic 2"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* Topic 3 */}
+                <FormField
+                  control={form.control}
+                  name="topik3"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel
+                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                      >
+                        Topik 3
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                          placeholder="Enter topic 3"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+
+              {/* Lokasi */}
+              <FormField
+                control={form.control}
+                name="lokasi"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel
+                      className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                    >
+                      Lokasi
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={isLoading}
+                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                        placeholder="Enter server location"
                         {...field}
                       />
                     </FormControl>
