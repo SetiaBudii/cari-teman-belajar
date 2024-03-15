@@ -5,6 +5,7 @@ const f = createUploadthing();
 
 const handleAuth = async () => {
   const user = await currentProfile();
+  console.log("error image failed uploaded");
   if (!user) throw new Error("Unauthorized");
   return { userId: user.userId };
 }
