@@ -1,21 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-
+// This example protects all routes including api/trpc routes
+// Please edit this to allow other routes to be public as needed.
+// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your middleware
+// This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-
-  // const email = request.cookies.get("email");
-  const token = request.headers.get("Authorization");
-  // console.log("email : ",email);
-  // console.log("token : ",token);
-  // console.log("request.url : ",request.url);
-
   if(request.url.endsWith("api/status")){
     return NextResponse.next();
   }
+  const token = request.headers.get("Authorization");
   if (!token) {
-    console.log("no token")
     return NextResponse.redirect(new URL('/api/status', request.url));
   }
-  
   return NextResponse.next();
 }
 
@@ -28,7 +23,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    // '/((?!api|_next/static|_next/image|favicon.ico).*)'
-    "/:path*"
+    '/((?!api|_next/static|_next/image|favicon.ico).*)'
   ],
 };
