@@ -9,6 +9,7 @@ export const currentProfilePages = async (req: NextApiRequest) => {
   const emailEncoded = cookies?.split('; ').find(row => row.startsWith('email='))?.split('=')[1]; // Extract email value from cookies
   const email = emailEncoded ? decodeURIComponent(emailEncoded.replace(/\+/g, ' ')) : null; // Decode and replace %40 with @
 
+  console.log("Cookies : ",cookies);
   if (!email) {
     return null;
   }
@@ -18,11 +19,5 @@ export const currentProfilePages = async (req: NextApiRequest) => {
       email: email
     }
   });
-  // const profile = await db.profile.findUnique({
-  //   where: {
-  //     id: profileid?.id
-  //   }
-  // });
-
   return profile;
 }

@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function middleware(request: NextRequest) {
 
   // const email = request.cookies.get("email");
-  // const token = request.cookies.get("user_token");
-
+  const token = request.cookies.get("user_token");
+ console.log("mid")
   // console.log("email : ",email);
   // console.log("token : ",token);
   // console.log("request.url : ",request.url);
@@ -12,8 +12,8 @@ export async function middleware(request: NextRequest) {
   if(request.url.endsWith("api/status")){
     return NextResponse.next();
   }
-  const token = true;
   if (!token) {
+    console.log("no token")
     return NextResponse.redirect(new URL('/api/status', request.url));
   }
   
@@ -29,6 +29,7 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)'
+    // '/((?!api|_next/static|_next/image|favicon.ico).*)'
+    "/:path*"
   ],
 };
