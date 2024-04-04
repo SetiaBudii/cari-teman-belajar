@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function middleware(request: NextRequest) {
 
   // const email = request.cookies.get("email");
-  const token = request.cookies.get("user_token");
+  const token = request.headers.get("Authorization");
   // console.log("email : ",email);
   // console.log("token : ",token);
   // console.log("request.url : ",request.url);
