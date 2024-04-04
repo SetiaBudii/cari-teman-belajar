@@ -11,10 +11,10 @@ export async function middleware(request: NextRequest) {
   if(request.url.endsWith("api/status")){
     return NextResponse.next();
   }
-  if (!token) {
-    console.log("no token")
-    return NextResponse.redirect(new URL('/api/status', request.url));
-  }
+  // if (!token) {
+  //   console.log("no token")
+  //   return NextResponse.redirect(new URL('/api/status', request.url));
+  // }
   
   return NextResponse.next();
 }

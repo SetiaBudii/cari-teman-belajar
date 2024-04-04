@@ -67,7 +67,7 @@ export const initialProfile = async () => {
     
       console.log("Dummy profile created:", createdProfile);
     } else {
-      console.log("Profile already exists:", existingProfile);
+      console.log("Profile already exists:");
     }  
 
       if (existingProfile) {
