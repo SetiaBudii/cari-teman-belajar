@@ -10,7 +10,7 @@ import { MediaRoom } from "@/components/media-room";
 
 interface MemberIdPageProps {
   params: {
-    profileId: string;
+    memberId: string;
     serverId: string;
   },
   searchParams: {
@@ -38,16 +38,15 @@ const MemberIdPage = async ({
     return redirect("/");
   }
 
-  const conversation = await getOrCreateConversation(profile?.id, params.profileId);
+  const conversation = await getOrCreateConversation(currentMember.id, params.memberId);
 
   if (!conversation) {
     return redirect(`/servers/${params.serverId}`);
   }
 
   const { memberOne, memberTwo } = conversation;
-  console.log(memberOne, memberTwo);
 
-  const otherMember = memberOne?.profileId === profile?.id ? memberTwo : memberOne;
+  const otherMember = memberOne.profileId === profile?.id ? memberTwo : memberOne;
 
   return ( 
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
@@ -56,8 +55,6 @@ const MemberIdPage = async ({
         name={otherMember.profile.name}
         serverId={params.serverId}
         type="conversation"
-        memberSatu={memberOne.profile.name}
-        memberDua={otherMember.profile.name}
       />
       {searchParams.video && (
         <MediaRoom

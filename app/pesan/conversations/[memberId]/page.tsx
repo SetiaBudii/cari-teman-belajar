@@ -26,7 +26,6 @@ const MemberIdPage = async ({
 
   const currentMember = await db.member.findFirst({
     where: {
-      serverId: params.serverId,
       profileId: profile?.id,
     },
     include: {

@@ -4,6 +4,8 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import {Plus, Minus} from "lucide-react";
 
 import {
   Dialog,
@@ -39,15 +41,18 @@ const formSchema = z.object({
   departement: z.string().min(1, {
     message: "Server departement is required."
   }),
-  topic1: z.string().min(1, {
-    message: "Server topic 1 is required."
-  }),
-  topic2: z.string().min(1, {
-    message: "Server topic 2 is required."
-  }),
-  topic3: z.string().min(1, {
-    message: "Server topic 3 is required."
-  }),
+  // topic1: z.string().min(1, {
+  //   message: "Server topic 1 is required."
+  // }),
+  // topic2: z.string().min(1, {
+  //   message: "Server topic 2 is required."
+  // }),
+  // topic3: z.string().min(1, {
+  //   message: "Server topic 3 is required."
+  // }),
+  topic1: z.string().optional(), // Making topic1 optional
+  topic2: z.string().optional(), // Making topic2 optional
+  topic3: z.string().optional(), // Making topic3 optional
   location: z.string().min(1, {
     message: "Server location is required."
   })
@@ -65,13 +70,27 @@ export const CreateServerModal = () => {
       name: "",
       imageUrl: "",
       description: "",
-      departement : "JTK",
+      departement : "",
       topic1: "",
       topic2: "",
       topic3: "",
       location:"",
     }
   });
+
+  const [topicCount, setTopicCount] = useState(1);
+
+  const addTopicField = () => {
+    if (topicCount < 3) {
+      setTopicCount(prevCount => prevCount + 1);
+    }
+  };
+
+  const removeTopicField = () => {
+    if (topicCount > 1) {
+      setTopicCount(prevCount => prevCount - 1);
+    }
+  };
 
   const isLoading = form.formState.isSubmitting;
 
@@ -91,6 +110,35 @@ export const CreateServerModal = () => {
     form.reset();
     onClose();
   }
+
+  const topicFields = [];
+  for (let i = 0; i < topicCount; i++) {
+    const fieldName = `topic${i + 1}`;
+    topicFields.push(
+      <FormField
+        key={fieldName}
+        control={form.control}
+        name={fieldName}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+              Topik {i + 1}
+            </FormLabel>
+            <FormControl>
+              <Input
+                disabled={isLoading}
+                className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                placeholder={`Enter topic ${i + 1}`}
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  }
+
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
@@ -192,9 +240,9 @@ export const CreateServerModal = () => {
                 )}
               />
 
-              <div className="flex space-x-4">
+              <div className="flex space-x-4 items-center">
                 {/* Topic 1 */}
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="topic1"
                   render={({ field }) => (
@@ -215,10 +263,10 @@ export const CreateServerModal = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 {/* Topic 2 */}
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="topic2"
                   render={({ field }) => (
@@ -239,10 +287,10 @@ export const CreateServerModal = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 {/* Topic 3 */}
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="topic3"
                   render={({ field }) => (
@@ -263,7 +311,15 @@ export const CreateServerModal = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
+
+                {topicFields}
+                <Button onClick={addTopicField}>
+                <Plus className="text-white dark:text-[#313338]" />
+                </Button>
+                <Button onClick={removeTopicField}>
+                <Minus className="text-white dark:text-[#313338]" />
+                </Button>
               </div>
 
 
