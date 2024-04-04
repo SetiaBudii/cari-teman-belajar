@@ -5,7 +5,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import {Plus, Minus} from "lucide-react";
+import { PlusCircle, MinusCircle} from "lucide-react";
 
 import {
   Dialog,
@@ -70,11 +70,11 @@ export const CreateServerModal = () => {
       name: "",
       imageUrl: "",
       description: "",
-      departement : "",
+      departement: "",
       topic1: "",
       topic2: "",
       topic3: "",
-      location:"",
+      location: "",
     }
   });
 
@@ -314,12 +314,14 @@ export const CreateServerModal = () => {
                 /> */}
 
                 {topicFields}
-                <Button onClick={addTopicField}>
-                <Plus className="text-white dark:text-[#313338]" />
-                </Button>
-                <Button onClick={removeTopicField}>
-                <Minus className="text-white dark:text-[#313338]" />
-                </Button>
+                <div className="flex space-x-2"> {/* Reduced space between buttons */}
+                  <Button onClick={addTopicField} className="rounded-full p-1 mt-5"> {/* Reduced padding */}
+                    <PlusCircle className="text-white dark:text-[#313338] h-4 w-4" /> {/* Reduced icon size */}
+                  </Button>
+                  <Button onClick={removeTopicField} className="rounded-full p-1 mt-5"> {/* Reduced padding */}
+                    <MinusCircle className="text-white dark:text-[#313338] h-4 w-4" /> {/* Reduced icon size */}
+                  </Button>
+                </div>
               </div>
 
 
