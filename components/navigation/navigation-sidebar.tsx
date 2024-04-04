@@ -10,9 +10,11 @@ import { db } from "@/lib/db";
 import { NavigationAction } from "./navigation-action";
 import { NavigationItem } from "./navigation-item";
 
+import { MessageCircle } from "lucide-react";
+
 export const NavigationSidebar = async () => {
   const profile = await currentProfile();
-  
+
   if (!profile) {
     return redirect("/");
   }
@@ -27,10 +29,16 @@ export const NavigationSidebar = async () => {
     }
   });
 
+  //find first member 
+  const member = await db.member.findFirst({});
   return (
-    <div
-      className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3"
-    >
+    <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
+      <div className="flex items-center gap-x-2">
+        <a href={`http://localhost:9191/conversations/${member.id}`} className="text-white-500 hover:underline">
+          <MessageCircle size={24} />
+        </a>
+
+      </div>
       <Separator
         className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto"
       />
