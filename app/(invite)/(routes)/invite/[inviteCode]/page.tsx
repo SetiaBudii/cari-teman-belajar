@@ -33,6 +33,9 @@ const InviteCodePage = async ({
     return redirect(`/servers/${existingServer.id}`);
   }
 
+  if (!profile) {
+    return redirect("/");
+  }
   const server = await db.server.update({
     where: {
       inviteCode: params.inviteCode,

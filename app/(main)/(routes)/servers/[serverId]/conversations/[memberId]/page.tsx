@@ -64,6 +64,9 @@ const MemberIdPage = async ({
       }
     });
 
+if (!levelFriend) {
+  return redirect(`/servers/${params.serverId}`);
+}
   const levelFriendship = levelFriend.level;
 
   return ( 

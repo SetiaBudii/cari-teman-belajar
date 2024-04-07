@@ -28,35 +28,25 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
-import { ca } from "date-fns/locale";
 
 const formSchema = z.object({
   name: z.string().min(1, {
-    message: "Server name is required."
+    message: "Community name is required."
   }),
   imageUrl: z.string().min(1, {
-    message: "Server image is required."
+    message: "Community image is required."
   }),
   description: z.string().min(1, {
-    message: "Server description is required."
+    message: "Community description is required."
   }),
   departement: z.string().min(1, {
-    message: "Server departement is required."
+    message: "Community departement is required."
   }),
-  // topic1: z.string().min(1, {
-  //   message: "Server topic1 is required."
-  // }),
-  // topic2: z.string().min(1, {
-  //   message: "Server topic2 is required."
-  // }),
-  // topic3: z.string().min(1, {
-  //   message: "Server topic3 is required."
-  // }),
-  topic1: z.string().optional(), // Making topic1 optional
-  topic2: z.string().optional(), // Making topic2 optional
-  topic3: z.string().optional(), // Making topic3 optional
+  topic1: z.string().optional(),
+  topic2: z.string().optional(),
+  topic3: z.string().optional(),
   location: z.string().min(1, {
-    message: "Server location is required."
+    message: "Community location is required."
   })
 });
 
@@ -66,10 +56,8 @@ export const EditServerModal = () => {
 
   const isModalOpen = isOpen && type === "editServer";
   const { server } = data;
-  const [datatopic, setDatatopic] = useState([]); // Initialize datatopic as a state
+  const [datatopic, setDatatopic] = useState([]);
 
-  // const alltopics = axios.get(`http://localhost:9191/api/servers/findtopic/${server?.id}`);
-  // const alltopicsdata = alltopics.PromiseResult;
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -80,36 +68,37 @@ export const EditServerModal = () => {
       topic1: "",
       topic2: "",
       topic3: "",
-      location:"",
+      location: "",
     }
   });
 
   useEffect(() => {
-    try{
-      axios.get(`http://localhost:9191/api/servers/findtopic/${server?.id}`).then((response) => {
-       if(response.data.servers.length == 1){
-        form.setValue("topic1", response.data.servers[0].name);
-       }else if(response.data.servers.length == 2){
-        form.setValue("topic1", response.data.servers[0].name);
-        form.setValue("topic2", response.data.servers[1].name);
-        }else if(response.data.servers.length == 3){
-        form.setValue("topic1", response.data.servers[0].name);
-        form.setValue("topic2", response.data.servers[1].name);
-        form.setValue("topic3", response.data.servers[2].name);
+    try {
+      axios.get(`http://localhost:9191/api/servers/findtopicserver/${server?.id}`).then((response) => {
+        if (response.data.servers.length == 1) {
+          form.setValue("topic1", response.data.servers[0].name);
+        } else if (response.data.servers.length == 2) {
+          form.setValue("topic1", response.data.servers[0].name);
+          form.setValue("topic2", response.data.servers[1].name);
+        } else if (response.data.servers.length == 3) {
+          form.setValue("topic1", response.data.servers[0].name);
+          form.setValue("topic2", response.data.servers[1].name);
+          form.setValue("topic3", response.data.servers[2].name);
         }
 
         setDatatopic(response.data.servers);
         console.log(datatopic);
       });
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-    
+
     if (server) {
       form.setValue("name", server.name);
       form.setValue("imageUrl", server.imageUrl);
       form.setValue("description", server.description);
       form.setValue("departement", server.departement);
+      form.setValue("location", server.location);
     }
   }, [server, form]);
 
@@ -137,7 +126,7 @@ export const EditServerModal = () => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-4 px-3">
           <DialogTitle className="text-2xl text-center font-bold">
-            Customize your server
+            Perbaharui Info Komunitas
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
@@ -160,7 +149,6 @@ export const EditServerModal = () => {
                   )}
                 />
               </div>
-
               <FormField
                 control={form.control}
                 name="name"
@@ -175,7 +163,7 @@ export const EditServerModal = () => {
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter server name"
+                        placeholder="Nama Komunitas"
                         {...field}
                       />
                     </FormControl>
@@ -183,8 +171,6 @@ export const EditServerModal = () => {
                   </FormItem>
                 )}
               />
-
-              {/* Deskripsi */}
               <FormField
                 control={form.control}
                 name="description"
@@ -199,7 +185,7 @@ export const EditServerModal = () => {
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter server description"
+                        placeholder="Deskripsi Komunitas"
                         {...field}
                       />
                     </FormControl>
@@ -207,8 +193,6 @@ export const EditServerModal = () => {
                   </FormItem>
                 )}
               />
-
-              {/* Jurusan */}
               <FormField
                 control={form.control}
                 name="departement"
@@ -223,7 +207,7 @@ export const EditServerModal = () => {
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter server major"
+                        placeholder="Jurusan"
                         {...field}
                       />
                     </FormControl>
@@ -233,107 +217,32 @@ export const EditServerModal = () => {
               />
 
               <div className="flex space-x-4">
-                {/* Topic 1 */}
-              {/* Iterasi melalui datatopic untuk menampilkan form topik */}
-              {datatopic.map((topic, index) => (
-                <FormField
-                  key={index}
-                  control={form.control}
-                  name={`topic${index + 1}`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        {`Topik ${index + 1}`}
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder={`Enter topic ${index + 1}`}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ))}
-                {/* <FormField
-                  control={form.control}
-                  name="topic1"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 1
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 1"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
-
-                {/* Topic 2 */}
-                {/* <FormField
-                  control={form.control}
-                  name="topic2"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 2
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 2"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
-
-                {/* Topic 3 */}
-                {/* <FormField
-                  control={form.control}
-                  name="topic3"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 3
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 3"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
+                {datatopic.map((topic, index) => (
+                  <FormField
+                    key={index}
+                    control={form.control}
+                    name={`topic${index + 1}` as "topic1" | "topic2" | "topic3"}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel
+                          className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                        >
+                          {`Topik ${index + 1}`}
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={isLoading}
+                            className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                            placeholder={`Topic ${index + 1}`}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ))}
               </div>
-
-
-              {/* Lokasi */}
               <FormField
                 control={form.control}
                 name="location"
@@ -348,7 +257,7 @@ export const EditServerModal = () => {
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter server location"
+                        placeholder="Lokasi Komunitas"
                         {...field}
                       />
                     </FormControl>
@@ -359,7 +268,7 @@ export const EditServerModal = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
-                Save
+                Perbaharui
               </Button>
             </DialogFooter>
           </form>

@@ -31,6 +31,9 @@ export const NavigationSidebar = async () => {
 
   //find first member 
   const member = await db.member.findFirst({});
+  if (!member) {
+    return redirect("/");
+  }
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
       <div className="flex items-center gap-x-2">
