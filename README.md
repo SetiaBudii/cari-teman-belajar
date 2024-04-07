@@ -21,9 +21,11 @@ npm i
 
 ```js
 DATABASE_URL="mysql://yourmysqlusername:password@localhost:3306/yourdatabasename"
-DASHBOARD_PORT = 8089
-ALLOWED_ORIGIN="http://localhost:3000"
-NEXT_PUBLIC_DASHBOARD_URL = "http://localhost:9090"
+DASHBOARD_PORT = 9090 --> Port fitur dashboard (Backend)
+ALLOWED_ORIGIN="http://localhost:3000" Fitur dashboard (Frontend)
+NEXT_PUBLIC_DASHBOARD_URL = "http://localhost:9090" --> Fitur dashboard (Backend)
+UPLOADTHING_SECRET= ............  --> Secret untuk Uploadthing
+UPLOADTHING_APP_ID= ............. --> Id untuk Uploadthing
 ```
 
 ### Setup Prisma
