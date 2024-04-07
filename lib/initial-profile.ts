@@ -33,7 +33,6 @@ export function getUserToken(){
 export const initialProfile = async () => {
   const user_token = getUserToken();
   const url = process.env.NEXT_PUBLIC_DASHBOARD_URL;
-  console.log("url : ",url);
   const config = {
     headers: {
       Authorization: `Bearer ${user_token}`,
@@ -65,9 +64,8 @@ export const initialProfile = async () => {
         data: dummyProfile
       });
     
-      console.log("Dummy profile created:", createdProfile);
     } else {
-      console.log("Profile already exists:");
+      console.log("Profile already exists");
     }  
 
       if (existingProfile) {

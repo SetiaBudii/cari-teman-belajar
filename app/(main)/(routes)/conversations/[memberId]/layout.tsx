@@ -26,7 +26,6 @@ const conversationLayout = async ({
     //remove duplicate profiles
     const uniqueProfiles = allProfiles.filter((profile, index, self) => self.findIndex(p => p.id === profile.id) === index);
 
-    console.log("ini halaman conversation", uniqueProfiles);
     return (
         <div className="h-full">
             <div className="hidden md:flex h-full w-[250px] z-30 flex-col fixed inset-y-0">

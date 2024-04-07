@@ -4,17 +4,10 @@ export async function middleware(request: NextRequest) {
 
   // const email = request.cookies.get("email");
   const token = request.headers.get("Authorization");
-  // console.log("email : ",email);
-  // console.log("token : ",token);
-  // console.log("request.url : ",request.url);
 
   if(request.url.endsWith("api/status")){
     return NextResponse.next();
   }
-  // if (!token) {
-  //   console.log("no token")
-  //   return NextResponse.redirect(new URL('/api/status', request.url));
-  // }
   
   return NextResponse.next();
 }
