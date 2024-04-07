@@ -1,10 +1,7 @@
 import { Hash } from "lucide-react";
 import { MobileToggle } from "@/components/mobile-toggle";
 import { UserAvatar } from "@/components/user-avatar";
-import { SocketIndicator } from "@/components/socket-indicator";
-import { ChatVideoButton } from "./chat-video-button";
-
-import { db } from "@/lib/db";
+import { min } from "date-fns";
 
 interface ChatHeaderProps {
   serverId: string;
@@ -13,6 +10,7 @@ interface ChatHeaderProps {
   imageUrl?: string;
   memberSatu?: string;
   memberDua?: string;
+  levelFriendship?: number;
 }
 
 export const ChatHeader = ({
@@ -21,19 +19,42 @@ export const ChatHeader = ({
   type,
   imageUrl,
   memberSatu,
-  memberDua
+  memberDua,
+  levelFriendship,
 }: ChatHeaderProps) => {
 
-  const progress = 50;
-
   const renderProgressBar = () => {
-    if (type === "conversation" && typeof progress === 'number') {
+    if (type === "conversation" && typeof levelFriendship === 'number') {
+
+      let leftLabel = "";
+      let rightLabel = "";
+      let minusPoint = 0;
+      let kaliPoint = 1;
+
+      // Tentukan label kiri dan kanan berdasarkan level pertemanan
+      if (levelFriendship >= 0 && levelFriendship < 50) {
+        leftLabel = "Stranger";
+        rightLabel = "Acquaintance";
+        kaliPoint = 2;
+      } else if (levelFriendship >= 50 && levelFriendship < 150) {
+        leftLabel = "Acquaintance";
+        rightLabel = "Friend";
+        minusPoint = 50;
+      } else if (levelFriendship >= 150 && levelFriendship < 250) {
+        leftLabel = "Friend";
+        rightLabel = "Close Friend";
+        minusPoint = 150;
+      } else if (levelFriendship >= 250 && levelFriendship <= 350) {
+        leftLabel = "Close Friend";
+        rightLabel = "BFF";
+        minusPoint = 250;
+      }
       return (
         <div className="flex items-center ml-5 relative">
           <div className="progress-bar-container">
-            <div className="progress-bar" style={{ width: `${progress}%` }}>
-              <span className="absolute left-0 ml-1 text-xs">Friend {memberDua}</span>
-              <span className="absolute right-0 mr-1 text-xs text-black ">Close Friend {memberSatu} </span>
+            <div className="progress-bar" style={{ width: `${levelFriendship * kaliPoint - minusPoint}%` }}>
+              <span className="absolute left-0 ml-1 text-xs">{leftLabel}</span>
+              <span className="absolute right-0 mr-1 text-xs text-black ">{rightLabel}</span>
             </div>
           </div>
         </div>
