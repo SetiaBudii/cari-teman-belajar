@@ -139,9 +139,9 @@ export const ChatItem = ({
               <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer">
                 {member.profile.name}
               </p>
-              {/* <ActionTooltip label={member.role}>
+              <ActionTooltip label={member.role}>
                 {roleIconMap[member.role]}
-              </ActionTooltip> */}
+              </ActionTooltip>
             </div>
             <span className="text-xs text-zinc-500 dark:text-zinc-400">
               {timestamp}

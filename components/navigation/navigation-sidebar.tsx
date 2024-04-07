@@ -10,8 +10,6 @@ import { db } from "@/lib/db";
 import { NavigationAction } from "./navigation-action";
 import { NavigationItem } from "./navigation-item";
 
-import { MessageCircle } from "lucide-react";
-
 export const NavigationSidebar = async () => {
   const profile = await currentProfile();
 
@@ -34,9 +32,11 @@ export const NavigationSidebar = async () => {
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
       <div className="flex items-center gap-x-2">
-        <a href={`http://localhost:9191/pesan/conversations/${member.id}`} className="text-white-500 hover:underline">
+        {/* <a href={`http://localhost:9191/pesan/conversations/${member.id}`} className="text-white-500 hover:underline">
           <MessageCircle size={24} />
-        </a>
+        </a> */}
+
+        <img src="https://utfs.io/f/6be8eaac-c13d-4788-9d3d-0ebb3c146660-1zbfv.png" alt="logo" className="h-8 w-8 rounded-full" />
 
       </div>
       <Separator
