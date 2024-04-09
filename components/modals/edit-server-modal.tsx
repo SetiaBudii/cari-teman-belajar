@@ -100,7 +100,7 @@ export const EditServerModal = () => {
       form.setValue("departement", server.departement);
       form.setValue("location", server.location);
     }
-  }, [server, form]);
+  }, [server, form, isOpen]);
 
   const isLoading = form.formState.isSubmitting;
 

@@ -64,10 +64,21 @@ const MemberIdPage = async ({
       }
     });
 
-if (!levelFriend) {
-  return redirect(`/servers/${params.serverId}`);
-}
-  const levelFriendship = levelFriend.level;
+    let levelFriendship: number;
+
+    if (!levelFriend) {
+      // Friendship record does not exist, insert a new one
+      const newFriendship = await db.friendship.create({
+        data: {
+          profileIdOne: memberOne.profileId,
+          profileIdTwo: memberTwo.profileId,
+          level: 0, // Set initial level as needed
+        },
+      });
+      levelFriendship = newFriendship.level;
+    } else {
+      levelFriendship = levelFriend.level;
+    }
 
   return ( 
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
