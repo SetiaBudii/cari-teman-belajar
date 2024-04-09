@@ -4,9 +4,8 @@ export async function middleware(request: NextRequest) {
 
   // const email = request.cookies.get("email");
   const token = request.cookies.get("user_token");
- console.log("mid")
   // console.log("email : ",email);
-  // console.log("token : ",token);
+  console.log("token : ",token);
   // console.log("request.url : ",request.url);
 
   if(request.url.endsWith("api/status")){

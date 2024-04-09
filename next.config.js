@@ -19,7 +19,7 @@ const nextConfig = {
     return [
       {
         // Routes this applies to
-        source: "/api/(.*)",
+        source: "/(.*)",
         // Headers
         headers: [
           // Allow for specific domains to have access or * for all
@@ -35,8 +35,17 @@ const nextConfig = {
           // Allows for specific headers accepted
           {
             key: "Access-Control-Allow-Headers",
-            value: "Content-Type, Authorization",
+            value: "Content-Type, Authorization, Accept, Origin",
           },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization",
+          },
+          {
+            key : "Access-Control-Allow-Credentials",
+            value : "true",
+          },
+
         ],
       },
     ];
