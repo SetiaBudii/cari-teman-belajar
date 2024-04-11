@@ -6,7 +6,6 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { useState } from "react";
 
 import {
   Dialog,
@@ -28,7 +27,6 @@ import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
-import { ca } from "date-fns/locale";
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -43,18 +41,15 @@ const formSchema = z.object({
   departement: z.string().min(1, {
     message: "Server departement is required."
   }),
-  // topic1: z.string().min(1, {
-  //   message: "Server topic1 is required."
-  // }),
-  // topic2: z.string().min(1, {
-  //   message: "Server topic2 is required."
-  // }),
-  // topic3: z.string().min(1, {
-  //   message: "Server topic3 is required."
-  // }),
-  topic1: z.string().optional(), // Making topic1 optional
-  topic2: z.string().optional(), // Making topic2 optional
-  topic3: z.string().optional(), // Making topic3 optional
+  topic1: z.string().min(1, {
+    message: "Server topic1 is required."
+  }),
+  topic2: z.string().min(1, {
+    message: "Server topic2 is required."
+  }),
+  topic3: z.string().min(1, {
+    message: "Server topic3 is required."
+  }),
   location: z.string().min(1, {
     message: "Server location is required."
   })
@@ -66,10 +61,7 @@ export const EditServerModal = () => {
 
   const isModalOpen = isOpen && type === "editServer";
   const { server } = data;
-  const [datatopic, setDatatopic] = useState([]); // Initialize datatopic as a state
 
-  // const alltopics = axios.get(`http://localhost:9191/api/servers/findtopic/${server?.id}`);
-  // const alltopicsdata = alltopics.PromiseResult;
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -85,31 +77,15 @@ export const EditServerModal = () => {
   });
 
   useEffect(() => {
-    try{
-      axios.get(`http://localhost:9191/api/servers/findtopic/${server?.id}`).then((response) => {
-       if(response.data.servers.length == 1){
-        form.setValue("topic1", response.data.servers[0].name);
-       }else if(response.data.servers.length == 2){
-        form.setValue("topic1", response.data.servers[0].name);
-        form.setValue("topic2", response.data.servers[1].name);
-        }else if(response.data.servers.length == 3){
-        form.setValue("topic1", response.data.servers[0].name);
-        form.setValue("topic2", response.data.servers[1].name);
-        form.setValue("topic3", response.data.servers[2].name);
-        }
-
-        setDatatopic(response.data.servers);
-        console.log(datatopic);
-      });
-    }catch(error){
-      console.log(error);
-    }
-    
     if (server) {
       form.setValue("name", server.name);
       form.setValue("imageUrl", server.imageUrl);
       form.setValue("description", server.description);
-      form.setValue("departement", server.departement);
+      // form.setValue("jurusan", server.jurusan);
+      // form.setValue("topik1", server.topik1);
+      // form.setValue("topik2", server.topik2);
+      // form.setValue("topik3", server.topik3);
+      // form.setValue("lokasi", server.lokasi);
     }
   }, [server, form]);
 
@@ -234,33 +210,7 @@ export const EditServerModal = () => {
 
               <div className="flex space-x-4">
                 {/* Topic 1 */}
-              {/* Iterasi melalui datatopic untuk menampilkan form topik */}
-              {datatopic.map((topic, index) => (
                 <FormField
-                  key={index}
-                  control={form.control}
-                  name={`topic${index + 1}`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        {`Topik ${index + 1}`}
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder={`Enter topic ${index + 1}`}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ))}
-                {/* <FormField
                   control={form.control}
                   name="topic1"
                   render={({ field }) => (
@@ -281,10 +231,10 @@ export const EditServerModal = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                /> */}
+                />
 
                 {/* Topic 2 */}
-                {/* <FormField
+                <FormField
                   control={form.control}
                   name="topic2"
                   render={({ field }) => (
@@ -305,10 +255,10 @@ export const EditServerModal = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                /> */}
+                />
 
                 {/* Topic 3 */}
-                {/* <FormField
+                <FormField
                   control={form.control}
                   name="topic3"
                   render={({ field }) => (
@@ -329,7 +279,7 @@ export const EditServerModal = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                /> */}
+                />
               </div>
 
 
