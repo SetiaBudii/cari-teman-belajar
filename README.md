@@ -1,4 +1,4 @@
-# Colle-Community
+# Colle-Community -- Main
 ### Prerequisites
 **Node version 18.x.x ; Database: Mysql**
 <br><br>
