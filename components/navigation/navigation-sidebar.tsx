@@ -12,7 +12,7 @@ import { NavigationItem } from "./navigation-item";
 
 export const NavigationSidebar = async () => {
   const profile = await currentProfile();
-
+  
   if (!profile) {
     return redirect("/");
   }
@@ -27,18 +27,10 @@ export const NavigationSidebar = async () => {
     }
   });
 
-  //find first member 
-  const member = await db.member.findFirst({});
   return (
-    <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
-      <div className="flex items-center gap-x-2">
-        {/* <a href={`http://localhost:9191/pesan/conversations/${member.id}`} className="text-white-500 hover:underline">
-          <MessageCircle size={24} />
-        </a> */}
-
-        <img src="https://utfs.io/f/6be8eaac-c13d-4788-9d3d-0ebb3c146660-1zbfv.png" alt="logo" className="h-8 w-8 rounded-full" />
-
-      </div>
+    <div
+      className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3"
+    >
       <Separator
         className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto"
       />
