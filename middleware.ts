@@ -3,8 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function middleware(request: NextRequest) {
 
   // const email = request.cookies.get("email");
-  const token = request.cookies.get("user_token");
- console.log("mid")
+  const token = request.headers.get("Authorization");
   // console.log("email : ",email);
   // console.log("token : ",token);
   // console.log("request.url : ",request.url);
@@ -12,10 +11,10 @@ export async function middleware(request: NextRequest) {
   if(request.url.endsWith("api/status")){
     return NextResponse.next();
   }
-  if (!token) {
-    console.log("no token")
-    return NextResponse.redirect(new URL('/api/status', request.url));
-  }
+  // if (!token) {
+  //   console.log("no token")
+  //   return NextResponse.redirect(new URL('/api/status', request.url));
+  // }
   
   return NextResponse.next();
 }

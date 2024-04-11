@@ -191,3 +191,9 @@ enum ProfileRole {
   PRAKTISI
 }
 
+model Friendship{
+  id             String   @id @default(uuid())
+  profileIdOne   String
+  profileIdTwo   String
+  level          Int     @default(0)
+}

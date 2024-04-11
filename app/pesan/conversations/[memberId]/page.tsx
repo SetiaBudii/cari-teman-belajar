@@ -26,7 +26,6 @@ const MemberIdPage = async ({
 
   const currentMember = await db.member.findFirst({
     where: {
-      serverId: params.serverId,
       profileId: profile?.id,
     },
     include: {
@@ -48,7 +47,6 @@ const MemberIdPage = async ({
 
   const otherMember = memberOne.profileId === profile?.id ? memberTwo : memberOne;
 
-  //add level friend
   const levelFriend = await db.friendship.findFirst({
     where: {
         OR: [

@@ -48,24 +48,6 @@ const MemberIdPage = async ({
 
   const otherMember = memberOne.profileId === profile?.id ? memberTwo : memberOne;
 
-  //add level friend
-  const levelFriend = await db.friendship.findFirst({
-    where: {
-        OR: [
-          {
-            profileIdOne: memberOne.profileId,
-            profileIdTwo: memberTwo.profileId
-          },
-          {
-            profileIdOne: memberTwo.profileId,
-            profileIdTwo: memberOne.profileId
-          }
-        ]
-      }
-    });
-
-  const levelFriendship = levelFriend.level;
-
   return ( 
     <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
       <ChatHeader
@@ -73,9 +55,6 @@ const MemberIdPage = async ({
         name={otherMember.profile.name}
         serverId={params.serverId}
         type="conversation"
-        memberSatu={memberOne.profileId}
-        memberDua={memberTwo.profileId}
-        levelFriendship={levelFriendship}
       />
       {searchParams.video && (
         <MediaRoom

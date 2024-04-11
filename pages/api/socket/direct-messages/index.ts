@@ -3,6 +3,7 @@ import { NextApiRequest } from "next";
 import { NextApiResponseServerIo } from "@/types";
 import { currentProfilePages } from "@/lib/current-profile-pages";
 import { db } from "@/lib/db";
+import { ca } from "date-fns/locale";
 
 export default async function handler(
   req: NextApiRequest,
@@ -65,7 +66,7 @@ export default async function handler(
     }
 
     const member = conversation.memberOne.profileId === profile.id ? conversation.memberOne : conversation.memberTwo
-
+    
     if (!member) {
       return res.status(404).json({ message: "Member not found" });
     }
@@ -85,6 +86,43 @@ export default async function handler(
         }
       }
     });
+
+    //add level Friendship
+      const level = await db.friendship.findFirst({
+        where: {
+          OR: [
+            {
+              profileIdOne: conversation.memberOne.profileId,
+              profileIdTwo: conversation.memberTwo.profileId
+
+            },
+            {
+              profileIdOne: conversation.memberTwo.profileId,
+              profileIdTwo: conversation.memberOne.profileId
+            }
+          ]
+        }
+      });
+
+      if (level) {
+       await db.friendship.update({
+          where: {
+            id: level.id
+          },
+          data: {
+            level: level.level + 1
+          }
+        });
+      }else{
+        await db.friendship.create({
+          data: {
+            profileIdOne: conversation.memberOne.profileId,
+            profileIdTwo: conversation.memberTwo.profileId,
+            level: 0
+          }
+        });
+      }
+
 
     const channelKey = `chat:${conversationId}:messages`;
 
