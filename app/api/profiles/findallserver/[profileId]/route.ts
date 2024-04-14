@@ -20,7 +20,7 @@ interface CommunityServer {
 export async function GET(req: Request, { params }: { params: { profileId: string } }) {
     /// Get list server by profileId
     const community = await db.server.findMany({
-        where: { profileId: params.profileId },
+        where: { members: { some: { profileId: params.profileId } } },
     });
 
     // Count total member of each server and add the totalMember property to each server

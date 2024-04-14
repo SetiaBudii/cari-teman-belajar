@@ -13,6 +13,11 @@ export async function GET(req: Request, { params }: { params: { keyword: string 
             },
           },
           {
+            departement: {
+              contains: params.keyword,
+            },
+          },
+          {
             topics: {
               some: {
                 name: {
