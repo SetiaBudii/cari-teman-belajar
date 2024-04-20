@@ -4,8 +4,8 @@ import axios, { AxiosResponse } from "axios";
 import { cookies } from 'next/headers'
 import { redirect } from "next/navigation";
 
-type Mahasiswa = {
-  id_mhs: number;
+type users = {
+  id_user: number;
   nama: string;
   username: string;
   email: string;
@@ -13,9 +13,6 @@ type Mahasiswa = {
   tanggal_lahir: Date;
   location: string;
   about: string;
-  kampus: string;
-  jurusan: string;
-  semester: number;
   token: string;
   profileUrl: string;
 }
@@ -39,7 +36,7 @@ export const initialProfile = async () => {
       Accept: 'application/json',
     },
   };
-    const userData = (await axios.get<Mahasiswa>(url+"/mahasiswa",config)).data;
+    const userData = (await axios.get<users>(url+"/user",config)).data;
     const existingProfile = await db.profile.findFirst({
         where:{
           email : userData.email
@@ -48,12 +45,10 @@ export const initialProfile = async () => {
     if (!existingProfile) {
       // Profile doesn't exist, create a dummy profile
       const dummyProfile = {
-        userId: userData.id_mhs.toString(),
+        userId: userData.id_user.toString(),
         name: userData.nama,
         imageUrl: userData.profileUrl,
         email: userData.email,
-        kampus: userData.kampus,
-        jurusan: userData.jurusan,
         role: ProfileRole.MAHASISWA, // Set your default role here
         createdAt: new Date(),
         updatedAt: new Date(),

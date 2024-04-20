@@ -12,8 +12,6 @@ export async function POST(req: Request) {
             name: newprofile.name,
             imageUrl: newprofile.imageUrl,
             email: newprofile.email,
-            kampus: newprofile.kampus,
-            jurusan: newprofile.jurusan,
             role: newprofile.role,
           }
     });
