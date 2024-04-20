@@ -5,6 +5,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
+import { useState } from "react";
 
 import {
   Dialog,
@@ -36,11 +37,14 @@ const formSchema = z.object({
   })
 });
 
+type AllowedNames = "name" | "imageUrl" | "description" | "departement" | "topik1" | "topik2" | "topik3" | "location";
+
 export const EditServerModal = () => {
   const { isOpen, onClose, type, data } = useModal();
   const router = useRouter();
 
   const isModalOpen = isOpen && type === "editServer";
+  
   const { server } = data;
 
   const form = useForm({
@@ -49,24 +53,43 @@ export const EditServerModal = () => {
       name: "",
       imageUrl: "",
       description: "",
-      jurusan: "",
+      departement: "",
       topik1: "",
       topik2: "",
       topik3: "",
-      lokasi:"",
+      location:"",
     }
   });
+
+  const [topics, setTopics] = useState([{ name: 'topik1', value: '' }]);
+
+  // useEffect(() => {
+  //   if (server) {
+  //     form.setValue("name", server.name);
+  //     form.setValue("imageUrl", server.imageUrl);
+  //     form.setValue("description", server.description);
+  //     form.setValue("departement", server.departement);
+  //     // form.setValue("topik1", server.topik1);
+  //     // form.setValue("topik2", server.topik2);
+  //     // form.setValue("topik3", server.topik3);
+  //     // form.setValue("location", server.location); 
+  //   }
+  // }, [server, form]);
 
   useEffect(() => {
     if (server) {
       form.setValue("name", server.name);
       form.setValue("imageUrl", server.imageUrl);
       form.setValue("description", server.description);
-      // form.setValue("jurusan", server.jurusan);
-      // form.setValue("topik1", server.topik1);
-      // form.setValue("topik2", server.topik2);
-      // form.setValue("topik3", server.topik3);
-      // form.setValue("lokasi", server.lokasi);
+      form.setValue("departement", server.departement);
+      form.setValue("location", server.location);
+
+      // Mengatur nilai untuk topics berdasarkan server data
+      const serverTopics = Object.keys(server)
+      .filter(key => key.startsWith('topik'))
+      .map(key => ({ name: key, value: (server as any)[key] })); // Use type assertion here
+
+      setTopics(serverTopics);
     }
   }, [server, form]);
 
@@ -168,7 +191,7 @@ export const EditServerModal = () => {
               {/* Jurusan */}
               <FormField
                 control={form.control}
-                name="jurusan"
+                name="departement"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel
@@ -189,91 +212,46 @@ export const EditServerModal = () => {
                 )}
               />
 
-              <div className="flex space-x-4">
-                {/* Topic 1 */}
-                <FormField
-                  control={form.control}
-                  name="topik1"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 1
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 1"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Topic 2 */}
-                <FormField
-                  control={form.control}
-                  name="topik2"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 2
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 2"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Topic 3 */}
-                <FormField
-                  control={form.control}
-                  name="topik3"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 3
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 3"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="flex items-center space-x-2">
+                {topics.map(({ name }, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <FormField
+                      control={form.control}
+                      name={name as AllowedNames}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel
+                            className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                          >
+                            {name}
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              disabled={isLoading}
+                              className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                              placeholder={`Enter ${name}`}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ))}
               </div>
 
 
-              {/* Lokasi */}
+              {/* location */}
               <FormField
                 control={form.control}
-                name="lokasi"
+                name="location"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel
                       className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
                     >
-                      Lokasi
+                      Location
                     </FormLabel>
                     <FormControl>
                       <Input

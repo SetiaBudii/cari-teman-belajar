@@ -4,6 +4,7 @@ import axios from "axios";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 import {
   Dialog,
@@ -32,8 +33,16 @@ const formSchema = z.object({
   }),
   imageUrl: z.string().min(1, {
     message: "Server image is required."
+  }),
+  description: z.string().min(1, {
+    message: "Description name is required."
+  }),
+  departement: z.string().min(1, {
+    message: "Departement image is required."
   })
 });
+
+type AllowedNames = "name" | "imageUrl" | "description" | "departement" | "topik1" | "topik2" | "topik3" | "location";
 
 export const CreateServerModal = () => {
   const { isOpen, onClose, type } = useModal();
@@ -47,11 +56,11 @@ export const CreateServerModal = () => {
       name: "",
       imageUrl: "",
       description: "",
-      jurusan: "",
+      departement: "",
       topik1: "",
       topik2: "",
       topik3: "",
-      lokasi:"",
+      location:"",
     }
   });
 
@@ -73,6 +82,20 @@ export const CreateServerModal = () => {
     form.reset();
     onClose();
   }
+
+  const [topics, setTopics] = useState([{ name: 'topik1', value: '' }]);
+
+  const addTopic = () => {
+    if (topics.length < 3) { // Batas maksimal 5 FormField Topic
+      setTopics([...topics, { name: `topik${topics.length + 1}`, value: '' }]);
+    }
+  };
+
+  const removeTopic = () => {
+    if (topics.length > 1) { // Batas minimal 1 FormField Topic
+      setTopics(topics.slice(0, -1));
+    }
+  };
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
@@ -150,16 +173,16 @@ export const CreateServerModal = () => {
                 )}
               />
 
-              {/* Jurusan */}
+              {/* departement */}
               <FormField
                 control={form.control}
-                name="jurusan"
+                name="departement"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel
                       className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
                     >
-                      Jurusan
+                      Departement
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -174,91 +197,57 @@ export const CreateServerModal = () => {
                 )}
               />
 
-              <div className="flex space-x-4">
-                {/* Topic 1 */}
-                <FormField
-                  control={form.control}
-                  name="topik1"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 1
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 1"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Topic 2 */}
-                <FormField
-                  control={form.control}
-                  name="topik2"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 2
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 2"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Topic 3 */}
-                <FormField
-                  control={form.control}
-                  name="topik3"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 3
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 3"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="flex items-center space-x-2">
+                {topics.map(({ name }, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <FormField
+                      control={form.control}
+                      name={name as AllowedNames}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel
+                            className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
+                          >
+                            {name}
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              disabled={isLoading}
+                              className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                              placeholder={`Enter ${name}`}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    {index === topics.length - 1 && (
+                      <div className="flex items-center space-x-2" style={{ marginTop: '30px' }}>
+                        <Button variant="secondary" onClick={addTopic} className="text-xs p-1 bg-gray-300">
+                          (+)
+                        </Button>
+                        {topics.length > 1 && (
+                          <Button variant="secondary" onClick={removeTopic} className="text-xs p-1 bg-gray-300">
+                            (-)
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
 
-
-              {/* Lokasi */}
+              {/* location */}
               <FormField
                 control={form.control}
-                name="lokasi"
+                name="location"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel
                       className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
                     >
-                      Lokasi
+                      Location
                     </FormLabel>
                     <FormControl>
                       <Input
