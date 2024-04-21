@@ -53,7 +53,7 @@ export const ChatHeader = ({
         <div className="flex items-center ml-5 relative">
           <div className="progress-bar-container">
             <div className="progress-bar" style={{ width: `${levelFriendship * kaliPoint - minusPoint}%` }}>
-              <span className="absolute left-0 ml-1 text-xs">{leftLabel}</span>
+              <span className="absolute left-0 ml-1 text-xs text-black">{leftLabel}</span>
               <span className="absolute right-0 mr-1 text-xs text-black ">{rightLabel}</span>
             </div>
           </div>
