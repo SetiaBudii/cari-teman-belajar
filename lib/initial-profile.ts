@@ -46,7 +46,7 @@ export const initialProfile = async () => {
       // Profile doesn't exist, create a dummy profile
       const dummyProfile = {
         userId: userData.id_user.toString(),
-        name: userData.nama,
+        name: userData.username,
         imageUrl: userData.profileUrl,
         email: userData.email,
         role: ProfileRole.MAHASISWA, // Set your default role here
@@ -60,6 +60,16 @@ export const initialProfile = async () => {
       });
     
     } else {
+      if(existingProfile.name != userData.username){
+        await db.profile.update({
+          where: {
+            id: existingProfile.id
+          },
+          data: {
+            name: userData.username
+          }
+        });
+      }
       console.log("Profile already exists");
     }  
 
