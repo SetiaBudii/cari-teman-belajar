@@ -27,7 +27,10 @@ const leveling = await db.friendship.findMany({
     orderBy: {
       level: 'desc'
     },
-    take: 1
+    take: 1,
+    select: {
+        level: true
+        }
   });
 
   //if user has no friends
@@ -35,6 +38,8 @@ const leveling = await db.friendship.findMany({
         return NextResponse.json({ level: 0 });
     }
 
-return NextResponse.json({ level: leveling});
+    const level = leveling[0].level;
+
+return NextResponse.json({ level: level});
 
 }
