@@ -23,7 +23,7 @@ UPLOADTHING_APP_ID= ............. --> Id untuk Uploadthing
 ### Dockerfile
 
 ```shell
-FROM node:14
+FROM node:latest
 
 # Set working directory
 WORKDIR /app
@@ -37,41 +37,9 @@ RUN npm install
 # Copy the rest of the application
 COPY . .
 
-# Push Prisma changes
-RUN npx prisma db push
-
-# Build the application
-RUN npm run build
-
 # Expose port
 EXPOSE 9191
 
 # Start the application
-CMD ["npm", "start"]
-```
-
-### docker-compose.yml
-
-```shell
-version: '3'
-
-services:
-  caritemanbelajar:
-    build:
-      context: cariTemanBelajar
-    ports:
-      - "9191:9191"
-    environment:
-     -  DATABASE_URL=mysql://root:1@databasecariteman:3306/discord
-    depends_on:
-     - databasecariteman
-
-  databasecariteman:
-    container_name: databasecariteman
-    image: mysql:latest
-    ports:
-      - "9192:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: 1
-      MYSQL_DATABASE: discord
+CMD ["sh", "-c", "npx prisma db push && npm run build &&  npm start"]
 ```
