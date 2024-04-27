@@ -38,7 +38,7 @@ export const NavigationSidebar = async () => {
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
       <div className="flex items-center gap-x-2">
       <a href="http://localhost:3000">
-      <img src="https://utfs.io/f/6be8eaac-c13d-4788-9d3d-0ebb3c146660-1zbfv.png" alt="logo" className="h-8 w-8 rounded-full" />
+      <img src="https://utfs.io/f/4fd5de1b-4c72-4cd3-9e57-e6b99a441226-zalnry.png" alt="logo" className="h-8 w-8 rounded-full" />
       </a>
       </div>
       <Separator

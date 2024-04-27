@@ -14,6 +14,9 @@ const font = Wix_Madefor_Display({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Colle-Community',
   description: 'Halaman Colle-Community',
+  icons: {
+    icon: 'colle.png', // /public path
+  },
 }
 
 export default function RootLayout({
