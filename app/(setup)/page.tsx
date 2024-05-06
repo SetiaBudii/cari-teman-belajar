@@ -22,7 +22,6 @@ const SetupPage = async () => {
       }
     }
   });
-  console.log("passing through setup page");
   if (server) {
     return redirect(`/servers/${server.id}`);
   }

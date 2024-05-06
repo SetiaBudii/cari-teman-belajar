@@ -33,6 +33,7 @@ export const LeaveServerModal = () => {
       onClose();
       router.refresh();
       router.push("/");
+      window.location.reload();
     } catch (error) {
       console.log(error);
     } finally {

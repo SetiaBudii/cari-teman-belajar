@@ -28,28 +28,22 @@ import { useModal } from "@/hooks/use-modal-store";
 
 const formSchema = z.object({
   name: z.string().min(1, {
-    message: "Server name is required."
+    message: "Community name is required."
   }),
   imageUrl: z.string().min(1, {
-    message: "Server image is required."
+    message: "Community image is required."
   }),
   description: z.string().min(1, {
-    message: "Server description is required."
+    message: "Community description is required."
   }),
   departement: z.string().min(1, {
-    message: "Server departement is required."
+    message: "Community departement is required."
   }),
-  topic1: z.string().min(1, {
-    message: "Server topic 1 is required."
-  }),
-  topic2: z.string().min(1, {
-    message: "Server topic 2 is required."
-  }),
-  topic3: z.string().min(1, {
-    message: "Server topic 3 is required."
-  }),
+  topic1: z.string().optional(), // Making topic1 optional
+  topic2: z.string().optional(), // Making topic2 optional
+  topic3: z.string().optional(), // Making topic3 optional
   location: z.string().min(1, {
-    message: "Server location is required."
+    message: "Community location is required."
   })
 });
 
@@ -92,6 +86,35 @@ export const CreateServerModal = () => {
     onClose();
   }
 
+  const fieldNameTopic = ["topic1", "topic2", "topic3"]
+
+  const topicFields = [];
+  for (let i = 0; i < topicCount; i++) {
+    topicFields.push(
+      <FormField
+        key={fieldNameTopic[i]}
+        control={form.control}
+        name={fieldNameTopic[i] as "name" | "imageUrl" | "description" | "departement" | "topic1" | "topic2" | "topic3" | "location"}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+              Topik {i + 1}
+            </FormLabel>
+            <FormControl>
+              <Input
+                disabled={isLoading}
+                className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
+                placeholder={`Topic ${i + 1}`}
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+  }
+  
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
@@ -120,7 +143,6 @@ export const CreateServerModal = () => {
                   )}
                 />
               </div>
-
               <FormField
                 control={form.control}
                 name="name"
@@ -135,7 +157,7 @@ export const CreateServerModal = () => {
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter server name"
+                        placeholder="Nama Komunitas"
                         {...field}
                       />
                     </FormControl>
@@ -143,8 +165,6 @@ export const CreateServerModal = () => {
                   </FormItem>
                 )}
               />
-
-              {/* Deskripsi */}
               <FormField
                 control={form.control}
                 name="description"
@@ -159,7 +179,7 @@ export const CreateServerModal = () => {
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter server description"
+                        placeholder="Deskripsi Komunitas"
                         {...field}
                       />
                     </FormControl>
@@ -167,8 +187,6 @@ export const CreateServerModal = () => {
                   </FormItem>
                 )}
               />
-
-              {/* Jurusan */}
               <FormField
                 control={form.control}
                 name="departement"
@@ -183,7 +201,7 @@ export const CreateServerModal = () => {
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter server major"
+                        placeholder="Jurusan"
                         {...field}
                       />
                     </FormControl>
@@ -192,97 +210,28 @@ export const CreateServerModal = () => {
                 )}
               />
 
-              <div className="flex space-x-4">
-                {/* Topic 1 */}
-                <FormField
-                  control={form.control}
-                  name="topic1"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 1
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 1"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Topic 2 */}
-                <FormField
-                  control={form.control}
-                  name="topic2"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 2
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 2"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Topic 3 */}
-                <FormField
-                  control={form.control}
-                  name="topic3"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel
-                        className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                      >
-                        Topik 3
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={isLoading}
-                          className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                          placeholder="Enter topic 3"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="flex space-x-4 items-center">
+                {topicFields}
+                <div className="flex space-x-2"> {/* Reduced space between buttons */}
+                  <Button onClick={addTopicField} className="rounded-full p-1 mt-5"> {/* Reduced padding */}
+                    <PlusCircle className="text-white dark:text-[#313338] h-4 w-4" /> {/* Reduced icon size */}
+                  </Button>
+                  <Button onClick={removeTopicField} className="rounded-full p-1 mt-5"> {/* Reduced padding */}
+                    <MinusCircle className="text-white dark:text-[#313338] h-4 w-4" /> {/* Reduced icon size */}
+                  </Button>
+                </div>
               </div>
-
-
-              {/* Lokasi */}
               <FormField
                 control={form.control}
                 name="location"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel
-                      className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70"
-                    >
-                      Lokasi
-                    </FormLabel>
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">Lokasi</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter server location"
+                        placeholder="Lokasi"
                         {...field}
                       />
                     </FormControl>
@@ -293,7 +242,7 @@ export const CreateServerModal = () => {
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
               <Button variant="primary" disabled={isLoading}>
-                Create
+                Buat
               </Button>
             </DialogFooter>
           </form>

@@ -44,9 +44,7 @@ model Profile {
   userId   String      @unique
   name     String
   imageUrl String      @db.Text
-  email    String      @db.Text
-  kampus   String     
-  jurusan  String    
+  email    String      @db.Text  
   role     ProfileRole @default(MAHASISWA)
 
   servers  Server[]
