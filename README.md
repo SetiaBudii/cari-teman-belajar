@@ -1,6 +1,17 @@
 # Colle-Community
 Cari teman Belajar merupakan salah satu fitur yang ada pada platform Colle. Fitur ini ditujukan untuk pengguna untuk mencari teman belajar dan saling berinteraksi didalam komunitas pada platform Colle.
 
+Proyek ini melibatkan tim yang terdiri dari:
+- Adinda Faayza Malika (System Analyst)
+- Cintia Ningsih (Tester)
+- Dhafin Rizqi Fadillah (Frontend Developer)
+- M Dyfan Ramadhan (Frontend Developer)
+- Raihan Fuad Syakir (Backend Developer)
+- Raihan Shidqi Pangestu (System Analyst)
+- Yayang Setia Budi (Backend Developer)
+
+
+
 <b> Teknologi yang dipakai : </b><br><br>
 <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white"> <img src="https://img.shields.io/badge/Prisma-3982CE?style=flat&logo=prisma&logoColor=white"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=mysql&logoColor=white">
 
