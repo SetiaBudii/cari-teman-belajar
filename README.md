@@ -51,7 +51,11 @@ npx prisma generate
 ```shell
 npx prisma db push
 ```
-6. Buat akun melalui dashboard (Link penjelasan: https://github.com/farizibnu/collaborative-learning.git )
-7. Buka halaman fitur Cari Teman Belajar ( Komunitas ) menggunakan url: http://localhost:9191
-8. Selain langkah no 7, Fitur Cari Teman Belajar bisa dibuka melalui button "open" pada dashboard
+6.Jalankan fitur
+```shell
+npm run dev
+```
+7. Buat akun melalui dashboard (Link penjelasan: https://github.com/farizibnu/collaborative-learning.git )
+8. Buka halaman fitur Cari Teman Belajar ( Komunitas ) menggunakan url: http://localhost:9191
+9. Selain langkah no 8, Fitur Cari Teman Belajar bisa dibuka melalui button "open" pada dashboard
    
