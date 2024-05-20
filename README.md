@@ -1,5 +1,5 @@
 # Colle-Community
-Cari teman Belajar merupakan salah satu fitur yang ada pada platform Colle. Fitur ini ditujukan untuk pengguna untuk mencari teman belajar dan saling berinteraksi didalam komunitas pada platform Colle.
+Cari teman belajar merupakan salah satu fitur yang ada pada colle. Tujuan dibuatnya fitur ini adalah untuk memungkin kan user untuk menemukan teman dalam belajar. Selain itu dalam fitur ini dimungkinkan user untuk mengakses suatu komunitas dimana dalam komunitas tersebut bisa digunakan sebagai tempat untuk sharing mengenai pembelajaran. User yang spesifik yang terlibat dari fitur ini adalah semua role user (Mahasiswa, Dosen, dan Praktisi)  dapat mencari user lain dalam platform namun ada beberapa batasan dalam fitur komunitas dimana pada fitur ini hanya mahasiswa lah yang dapat mengakses fitur komunitas. 
 
 Proyek ini melibatkan tim yang terdiri dari:
 - Adinda Faayza Malika (System Analyst)
@@ -18,7 +18,10 @@ Proyek ini melibatkan tim yang terdiri dari:
 ## Prasyarat
 1. Sudah menginstall Node versi 18 keatas
 2. Sudah menginstall Mysql
-   
+
+## Arsitektur Sistem
+
+
 ## Langkah install (Development)
 ### Clone Repository
 1. Clone dan install Dashboard (Link: https://github.com/farizibnu/collaborative-learning.git )
