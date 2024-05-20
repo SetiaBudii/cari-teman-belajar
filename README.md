@@ -24,6 +24,100 @@ Proyek ini melibatkan tim yang terdiri dari:
 
 ![image](https://github.com/SetiaBudii/cari-teman-belajar/assets/95162227/78acfff6-403f-45e0-9335-f6dd821ac472)
 
+## Struktur Project
+```bash
+C:.
+├───app
+│   ├───(invite)
+│   │   └───(routes)
+│   │       └───invite
+│   │           └───[inviteCode]
+│   ├───(main)
+│   │   └───(routes)
+│   │       ├───conversations
+│   │       │   └───[memberId]
+│   │       └───servers
+│   │           └───[serverId]
+│   │               ├───channels
+│   │               │   └───[channelId]
+│   │               └───conversations
+│   │                   └───[memberId]
+│   ├───(setup)
+│   └───api
+│       ├───channels
+│       │   └───[channelId]
+│       ├───direct-messages
+│       ├───followers
+│       │   └───[userId]
+│       ├───following
+│       │   └───[userId]
+│       ├───livekit
+│       ├───members
+│       │   ├───findid
+│       │   │   └───[profileId]
+│       │   ├───totalDm
+│       │   │   └───[profileId]
+│       │   └───[memberId]
+│       ├───messages
+│       ├───profiles
+│       │   ├───achievement
+│       │   │   └───[name]
+│       │   ├───findallserver
+│       │   │   └───[profileId]
+│       │   ├───findidbyemail
+│       │   │   └───[email]
+│       │   ├───leveling
+│       │   │   └───[name]
+│       │   └───[profileId]
+│       ├───servers
+│       │   ├───allserver
+│       │   │   └───[keyword]
+│       │   ├───findallserver
+│       │   │   └───[keyword]
+│       │   ├───findallservers
+│       │   ├───findserver
+│       │   │   └───[profileId]
+│       │   ├───findtopicserver
+│       │   │   └───[serverId]
+│       │   ├───popular
+│       │   │   └───[keyword]
+│       │   └───[serverId]
+│       │       ├───invite-code
+│       │       └───leave
+│       ├───status
+│       └───uploadthing
+├───components
+│   ├───chat
+│   ├───modals
+│   ├───navigation
+│   ├───providers
+│   ├───server
+│   └───ui
+├───hooks
+├───lib
+├───pages
+│   └───api
+│       └───socket
+│           ├───direct-messages
+│           └───messages
+├───prisma
+│   └───migrations
+│       └───20240304231028_init
+└───public
+```
+
+Folder penting untuk pengembangan: 
+- app/api : Menyimpan file-file API yang digunakan dalam project.
+- app/components : Menyimpan file-file keperluan segi frontend
+- app/hooks : Menyimpan file-file hook yang digunakan dalam project.
+- app/lib : Menyimpan file-file library yang digunakan dalam project.
+- app/prisma : Menyimpan file-file Prisma yang digunakan untuk menghubungkan project dengan database
+
+
+## API Documentation
+Link : https://documenter.getpostman.com/view/34515247/2sA3JNazqv
+
+
 ## Langkah install (Development)
 ### Clone Repository
 1. Clone dan install Dashboard (Link: https://github.com/farizibnu/collaborative-learning.git )
@@ -63,4 +157,21 @@ npm run dev
 7. Buat akun melalui dashboard (Link penjelasan: https://github.com/farizibnu/collaborative-learning.git )
 8. Buka halaman fitur Cari Teman Belajar ( Komunitas ) menggunakan url: http://localhost:9191
 9. Selain langkah no 8, Fitur Cari Teman Belajar bisa dibuka melalui button "open" pada dashboard
+
+
+## Troubleshooting Guide
+Bug pada saat pengguna pertama kali mengakses atau membuka fitur komunitas pengguna akan diminta untuk membuat komunitas.
+
+![image](https://github.com/SetiaBudii/cari-teman-belajar/assets/99375480/32a1102e-22c3-4dd2-90f5-ad11bd860d24)
+
+Solusi: Kembali ke dashboard dengan menggunakan url dashboard atau klik icon back pada browser. Setelah itu buka kembali fitur komunitas.
+Bug achievement terkadang  tidak muncul pada gambar yang dilingkari merah berikut:
+
+![image](https://github.com/SetiaBudii/cari-teman-belajar/assets/99375480/07e38845-75c0-43ef-ac70-509ee2b1c383)
+
+Solusi: Agar achievement ini berjalan dengan lancar untuk sementara solusi yang tersedia adalah dengan memastikan bahwa setiap mahasiswa yang sudah pernah membuka fitur komunitas harus mengikuti minimal 1 komunitas maka bug ini bisa teratasi.
+
+
+## Referensi tambahan
+Discord Clone : https://github.com/AntonioErdeljac/next13-discord-clone
    
