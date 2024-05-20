@@ -20,7 +20,9 @@ Proyek ini melibatkan tim yang terdiri dari:
 2. Sudah menginstall Mysql
 
 ## Arsitektur Sistem
+![image](https://github.com/SetiaBudii/cari-teman-belajar/assets/95162227/cedfc8fe-2cfb-4c3d-8da2-c22c7a4c09fc)
 
+![image](https://github.com/SetiaBudii/cari-teman-belajar/assets/95162227/78acfff6-403f-45e0-9335-f6dd821ac472)
 
 ## Langkah install (Development)
 ### Clone Repository
