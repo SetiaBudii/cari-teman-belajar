@@ -174,4 +174,8 @@ Solusi: Agar achievement ini berjalan dengan lancar untuk sementara solusi yang 
 
 ## Referensi tambahan
 Discord Clone : https://github.com/AntonioErdeljac/next13-discord-clone
+
+## Dokumentasi Teknis Project Colle
+Link Dokumentasi Teknis : [Dokumentasi Teknis Colle](https://docs.google.com/document/d/1clwglUYdCa6ZWRkjjRdvLvvB21qm29-mBxFCpNwynfk/edit)
+
    
